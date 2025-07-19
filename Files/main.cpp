@@ -4,7 +4,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 //#define WRITE_TO_FILE
-#define READ_FROM_FILE
+//#define READ_FROM_FILE
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -22,9 +22,10 @@ void main()
 	system("notepad File.txt");
 #endif // WRITE_TO_FILE
 
-//1.Создаем и открываем поток:
+#ifdef READ_FROM_FILE
+	//1.Создаем и открываем поток:
 	std::fstream fin("File.txt");
-//2.Проверяем открылся ли поток:
+	//2.Проверяем открылся ли поток:
 	if (fin.is_open())
 	{
 		while (!fin.eof())
@@ -35,11 +36,13 @@ void main()
 			fin.getline(sz_buffer, SIZE);
 			cout << sz_buffer << endl;
 		}
-		fin.close();//потоок есть смысл закрывать только если он был открыт
+		fin.close();//поток есть смысл закрывать только если он был открыт
 	}
 	else
 	{
 		std::cerr << "Error: file not found" << endl;
 	}
+#endif // READ_FROM_FILE
+
 
 }
