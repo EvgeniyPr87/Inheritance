@@ -3,6 +3,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+#define delimitr "\n--------------------------\n"
 
 
 #define HUMAN_TAKE_PARAMETRS const std::string& last_name, const std::string& first_name, int age
@@ -48,7 +49,7 @@ public:
 		set_age(age);
 		cout << "HConstructor:\t" << this << endl;
 	}
-	~Human()
+	virtual~Human()
 	{
 		cout << "HDestructor:\t" << this << endl;
 	}
@@ -62,8 +63,8 @@ public:
 	
 };
 
-#define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attandence
-#define STUDENT_GIVE_PARAMETRS rating, attandence
+#define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendence
+#define STUDENT_GIVE_PARAMETRS  speciality,group,rating, attendence
 class Student :public Human
 {
 	std::string speciality;
@@ -115,7 +116,7 @@ public:
 		set_speciality(speciality);
 		set_group(group);
 		set_rating(rating);
-		set_attendance(attandence);
+		set_attendance(attendence);
 		cout << "SConstructor:\t" << this << endl;
 
 	}
@@ -125,7 +126,7 @@ public:
 	}
 
 	//			Methods:
-	void info()const
+	void info()const override
 	{
 		Human::info();
 		cout << speciality << " " << group << " " << attendance << endl;
@@ -171,23 +172,42 @@ public:
 		cout << "TDestructor:\t" << this << endl;
 	}
 	// Methods:
-	void info()const
+	void info()const override
 	{
 	Human::info();
 		cout << speciality << " " << expiriants << endl;
 	}
 };
-//Graduate(HUMAN_TAKE_PARAMETRS, STUDENT_TAKE_PARAMETRS, const std::string& subject)
-//{
-//
-//}
+#define GRADUATE_TAKE_PARAMETRS const std::string& subject 
+#define GRADUATE_GIVE_PARAMETRS subject 
+class Graduate:public Student
+{
+	std::string subject;
+public:
+	Graduate(HUMAN_TAKE_PARAMETRS, STUDENT_TAKE_PARAMETRS, GRADUATE_TAKE_PARAMETRS)
+		:Student(HUMAN_GIVE_PARAMETRS, STUDENT_GIVE_PARAMETRS)
+	{
+		this->subject = subject;
+		cout << "GConstructor:\t" << this << endl;
+	}
+	~Graduate()
+	{
+		cout << "GDistructor:\t" << this << endl;
+	}
 
-//#define INHERITANCE
-#define POLIMORPHISM
+	void info()const
+	{
+		Student::info();
+		cout << subject << endl;
+	}
+
+};
+//#define INTERITANCE
+//#define POLIMORPHISM
 void main()
 {
 	setlocale(LC_ALL, "");
-#ifdef INHERITANCE
+#ifdef INTERITANCE
 	Human human("Montana", "Antonio", 25);
 	human.info();
 
@@ -196,18 +216,32 @@ void main()
 
 	Teacher teacher("White", "Walter", 50, "Chemistry", 25);
 	teacher.info();
-#endif // INHERITANCE
 
+	Graduate graduate("Schreder", "Hank", 40, "Criminalistic", "WW_220", 40, 60, "How to catch Heisenberg");
+	graduate.info();
+
+#endif // INTERITANCE
+
+#ifdef POLIMORPHISM
 	Human* group[] =
 	{
 		new Human("Montana", "Antonio", 25),
 		new Student("Pincman", "Jessy", 22, "Chemistry", "WW_220", 95, 99),
 		new Teacher("White", "Walter", 50, "Chemistry", 25),
 		new Student("Pinc", "Jemmi", 26, "Chemistry", "WW_220", 90, 89),
-		new Teacher("Whim", "Demmi", 40, "Chemistry", 25)
+		new Teacher("Whim", "Demmi", 40, "Chemistry", 25),
+		new Graduate("Schreder", "Hank", 40, "Criminalistic", "WW_220", 40, 60, "How to catch Heisenberg")
 	};
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		group[i]->info();
+		cout << delimitr << endl;
 	}
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		delete group[i];
+	}
+#endif // POLIMORPHISM
+
+
 }
