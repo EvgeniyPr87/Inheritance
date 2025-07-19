@@ -60,8 +60,23 @@ public:
 		cout << last_name << " " << first_name << " " << age << endl;
 
 	}
+	friend std::ostream& operator<<(std::ostream os, const Human& obj)
+	{
+		return obj.print(os);
+	}
+	virtual std::ostream& print(std::ostream& os) const
+	{
+		return os << "Human";
+	}
 	
 };
+// operator overload:
+//std::ostream&  operator<<(std::ostream& os, const Human obj)
+//{
+//	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age();
+//}
+
+
 
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendence
 #define STUDENT_GIVE_PARAMETRS  speciality,group,rating, attendence
@@ -131,7 +146,17 @@ public:
 		Human::info();
 		cout << speciality << " " << group << " " << attendance << endl;
 	}
+	virtual std::ostream& print(std::ostream& os) const
+	{
+		return os << "Student";
+	}
 };
+// operator overload Student:
+//std::ostream&  operator<<(std::ostream& os, const Student& obj)
+//{
+//	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << " " << obj.get_speciality() <<
+//		obj.get_group() << " " << obj.get_attendance() << endl;
+//}
 #define TEACHER_TAKE_PARAMETRS const std::string& speciality, int expiriants
 #define TEACHER_GIVE_PARAMETRS speciality, expiriants
 class Teacher : public Human
@@ -177,6 +202,10 @@ public:
 	Human::info();
 		cout << speciality << " " << expiriants << endl;
 	}
+	virtual std::ostream& print(std::ostream& os) const
+	{
+		return os << "Teacher";
+	}
 };
 #define GRADUATE_TAKE_PARAMETRS const std::string& subject 
 #define GRADUATE_GIVE_PARAMETRS subject 
@@ -202,23 +231,27 @@ public:
 	}
 
 };
-//#define INTERITANCE
+#define INTERITANCE
 //#define POLIMORPHISM
 void main()
 {
 	setlocale(LC_ALL, "");
 #ifdef INTERITANCE
 	Human human("Montana", "Antonio", 25);
-	human.info();
+	//human.info();
 
 	Student student("Pincman", "Jessy", 22, "Chemistry", "WW_220", 95, 99);
-	student.info();
+	//student.info();
 
 	Teacher teacher("White", "Walter", 50, "Chemistry", 25);
-	teacher.info();
+	//teacher.info();
 
 	Graduate graduate("Schreder", "Hank", 40, "Criminalistic", "WW_220", 40, 60, "How to catch Heisenberg");
-	graduate.info();
+	//graduate.info();
+
+	/*cout << human << endl;
+	cout << student << endl;
+	*/
 
 #endif // INTERITANCE
 
