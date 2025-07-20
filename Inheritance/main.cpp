@@ -1,4 +1,6 @@
 #include<iostream>
+#include<fstream>
+
 using std::cout;
 using std::cin;
 using std::endl;
@@ -203,7 +205,7 @@ public:
 
 };
 //#define INTERITANCE
-//#define POLIMORPHISM
+#define POLIMORPHISM
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -242,6 +244,11 @@ void main()
 		delete group[i];
 	}
 #endif // POLIMORPHISM
+
+	std::ofstream fout;
+	fout.open("Group.txt", std::fstream);
+
+
 
 
 }
