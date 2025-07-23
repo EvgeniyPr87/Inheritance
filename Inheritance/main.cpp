@@ -6,6 +6,7 @@ using std::endl;
 #define delimitr "\n--------------------------\n"
 
 
+
 #define HUMAN_TAKE_PARAMETRS const std::string& last_name, const std::string& first_name, int age
 #define HUMAN_GIVE_PARAMETRS  last_name, first_name, age
 class Human
@@ -47,11 +48,17 @@ public:
 		set_last_name(last_name);
 		set_first_name(first_name);
 		set_age(age);
+#ifdef DEBUG
 		cout << "HConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	virtual~Human()
 	{
+#ifdef DEBUG
 		cout << "HDestructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 
 	//		Methods:
@@ -59,23 +66,14 @@ public:
 	{
 		cout << last_name << " " << first_name << " " << age << endl;
 
-	}
-	friend std::ostream& operator<<(std::ostream os, const Human& obj)
-	{
-		return obj.print(os);
-	}
-	virtual std::ostream& print(std::ostream& os) const
-	{
-		return os << "Human";
-	}
-	
+	}	
+	friend  std::ostream& operator <<(std::ostream& os, const Human& obj);
 };
-// operator overload:
-//std::ostream&  operator<<(std::ostream& os, const Human obj)
-//{
-//	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age();
-//}
+std::ostream& operator <<(std::ostream& os, const Human& obj)
+{
 
+	return os << obj.last_name << " " << obj.first_name << " " << obj.age;
+}
 
 
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendence
@@ -132,12 +130,18 @@ public:
 		set_group(group);
 		set_rating(rating);
 		set_attendance(attendence);
+#ifdef DEBUG
 		cout << "SConstructor:\t" << this << endl;
+#endif // DEBUG
+
 
 	}
 	~Student()
 	{
+#ifdef DEBUG
 		cout << "SDesructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 
 	//			Methods:
@@ -146,17 +150,13 @@ public:
 		Human::info();
 		cout << speciality << " " << group << " " << attendance << endl;
 	}
-	virtual std::ostream& print(std::ostream& os) const
-	{
-		return os << "Student";
-	}
+	friend  std::ostream& operator<<(std::ostream& os, const Student& obj);
 };
-// operator overload Student:
-//std::ostream&  operator<<(std::ostream& os, const Student& obj)
-//{
-//	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << " " << obj.get_speciality() <<
-//		obj.get_group() << " " << obj.get_attendance() << endl;
-//}
+
+ std::ostream& operator<<(std::ostream& os, const Student& obj)
+{
+	 return os <<static_cast<const Human&>(obj)<<" "<< obj.speciality << " " << obj.group << " " << obj.rating << " " << obj.attendance;
+ }
 #define TEACHER_TAKE_PARAMETRS const std::string& speciality, int expiriants
 #define TEACHER_GIVE_PARAMETRS speciality, expiriants
 class Teacher : public Human
@@ -190,11 +190,17 @@ public:
 	{
 		set_speciality(speciality);
 		set_expiriants(expiriants);
+#ifdef DEBUG
 		cout << "TConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Teacher()
 	{
+#ifdef DEBUG
 		cout << "TDestructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	// Methods:
 	void info()const override
@@ -202,11 +208,14 @@ public:
 	Human::info();
 		cout << speciality << " " << expiriants << endl;
 	}
-	virtual std::ostream& print(std::ostream& os) const
-	{
-		return os << "Teacher";
-	}
+	
+	friend std::ostream& operator <<(std::ostream& os, const Teacher& obj);
+
 };
+std::ostream& operator <<(std::ostream& os, const Teacher& obj)
+{
+	return os<<static_cast<const Human&>(obj) << obj.speciality << " " << obj.expiriants;
+}
 #define GRADUATE_TAKE_PARAMETRS const std::string& subject 
 #define GRADUATE_GIVE_PARAMETRS subject 
 class Graduate:public Student
@@ -217,11 +226,17 @@ public:
 		:Student(HUMAN_GIVE_PARAMETRS, STUDENT_GIVE_PARAMETRS)
 	{
 		this->subject = subject;
+#ifdef DEBUG
 		cout << "GConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Graduate()
 	{
+#ifdef DEBUG
 		cout << "GDistructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 
 	void info()const
@@ -229,10 +244,17 @@ public:
 		Student::info();
 		cout << subject << endl;
 	}
+	friend std::ostream& operator <<(std::ostream& os, const Graduate& obj);
 
 };
+std::ostream& operator<<(std::ostream& os, const Graduate& obj)
+{
+	return os << static_cast<const Human&>(obj) << " " << obj.subject;
+}
 #define INTERITANCE
 //#define POLIMORPHISM
+
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -249,9 +271,10 @@ void main()
 	Graduate graduate("Schreder", "Hank", 40, "Criminalistic", "WW_220", 40, 60, "How to catch Heisenberg");
 	//graduate.info();
 
-	/*cout << human << endl;
-	cout << student << endl;
-	*/
+	cout << human<<endl;
+	cout << student<<endl;
+	cout << teacher<<endl;
+	cout << graduate<<endl;
 
 #endif // INTERITANCE
 
