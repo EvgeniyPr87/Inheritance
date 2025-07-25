@@ -9,6 +9,8 @@ using std::endl;
 
 #define HUMAN_TAKE_PARAMETRS const std::string& last_name, const std::string& first_name, int age
 #define HUMAN_GIVE_PARAMETRS  last_name, first_name, age
+
+#define HUMAN_FIELDS_OUTPUT  last_name << " " << first_name << " " << age << endl
 class Human
 {
 	std::string last_name;
@@ -62,12 +64,15 @@ public:
 	}
 
 	//		Methods:
+	virtual void info()const
+	{
+		cout << HUMAN_FIELDS_OUTPUT;
+	}
 	virtual std::ostream& info(std::ostream& os)const
 	{
-		return  os << last_name << " " << first_name << " " << age << endl;
+		return  os << HUMAN_FIELDS_OUTPUT;
 	}
 		
-	friend  std::ostream& operator <<(std::ostream& os, const Human& obj);
 };
 std::ostream& operator <<(std::ostream& os, const Human& obj)
 {
@@ -77,6 +82,8 @@ std::ostream& operator <<(std::ostream& os, const Human& obj)
 
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendence
 #define STUDENT_GIVE_PARAMETRS  speciality,group,rating, attendence
+#define STUDENT_FIELDS_OUTPUT speciality << " " << group << " " << attendance << endl
+
 class Student :public Human
 {
 	std::string speciality;
@@ -144,12 +151,17 @@ public:
 	}
 
 	//			Methods:
+	void info()const
+	{
+		Human::info();
+		cout << STUDENT_FIELDS_OUTPUT;
+	}
 	std::ostream& info(std::ostream& os)const override
 	{
 		Human::info(os);
-		return os << speciality << " " << group << " " << attendance << endl;
+		return os << STUDENT_FIELDS_OUTPUT;
 	}
-	friend  std::ostream& operator<<(std::ostream& os, const Student& obj);
+	
 };
 
  std::ostream& operator<<(std::ostream& os, const Student& obj)
@@ -158,6 +170,8 @@ public:
  }
 #define TEACHER_TAKE_PARAMETRS const std::string& speciality, int expiriants
 #define TEACHER_GIVE_PARAMETRS speciality, expiriants
+#define TEACHER_FIELDS_OUTPUT speciality << " " << expiriants << endl
+
 class Teacher : public Human
 {
 	std::string speciality;
@@ -202,14 +216,17 @@ public:
 
 	}
 	// Methods:
+	void info()const override
+	{
+	Human::info();
+		cout<< TEACHER_FIELDS_OUTPUT;
+	}
 	std::ostream& info(std::ostream& os)const override
 	{
 	Human::info(os);
-		return os << speciality << " " << expiriants << endl;
+		return os <<TEACHER_FIELDS_OUTPUT;
 	}
 	
-	friend std::ostream& operator <<(std::ostream& os, const Teacher& obj);
-
 };
 std::ostream& operator <<(std::ostream& os, const Teacher& obj)
 {
@@ -217,6 +234,7 @@ std::ostream& operator <<(std::ostream& os, const Teacher& obj)
 }
 #define GRADUATE_TAKE_PARAMETRS const std::string& subject 
 #define GRADUATE_GIVE_PARAMETRS subject 
+#define GRADUATE_FIELDS_OUTPUT  subject << endl
 class Graduate:public Student
 {
 	std::string subject;
@@ -237,13 +255,17 @@ public:
 #endif // DEBUG
 
 	}
-
+	//	Metods:
+	void info()const override
+	{
+		Student::info();
+		cout<< GRADUATE_FIELDS_OUTPUT;
+	}
 	std::ostream& info(std::ostream& os)const
 	{
 		Student::info(os);
-		return os << subject << endl;
+		return os <<GRADUATE_FIELDS_OUTPUT;
 	}
-	friend std::ostream& operator <<(std::ostream& os, const Graduate& obj);
 
 };
 std::ostream& operator<<(std::ostream& os, const Graduate& obj)
