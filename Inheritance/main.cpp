@@ -62,17 +62,16 @@ public:
 	}
 
 	//		Methods:
-	virtual void info()const
+	virtual std::ostream& info(std::ostream& os)const
 	{
-		cout << last_name << " " << first_name << " " << age << endl;
-
-	}	
+		return  os << last_name << " " << first_name << " " << age << endl;
+	}
+		
 	friend  std::ostream& operator <<(std::ostream& os, const Human& obj);
 };
 std::ostream& operator <<(std::ostream& os, const Human& obj)
 {
-
-	return os << obj.last_name << " " << obj.first_name << " " << obj.age;
+	return obj.info(os);
 }
 
 
@@ -145,17 +144,17 @@ public:
 	}
 
 	//			Methods:
-	void info()const override
+	std::ostream& info(std::ostream& os)const override
 	{
-		Human::info();
-		cout << speciality << " " << group << " " << attendance << endl;
+		Human::info(os);
+		return os << speciality << " " << group << " " << attendance << endl;
 	}
 	friend  std::ostream& operator<<(std::ostream& os, const Student& obj);
 };
 
  std::ostream& operator<<(std::ostream& os, const Student& obj)
 {
-	 return os <<static_cast<const Human&>(obj)<<" "<< obj.speciality << " " << obj.group << " " << obj.rating << " " << obj.attendance;
+	 return obj.info(os);
  }
 #define TEACHER_TAKE_PARAMETRS const std::string& speciality, int expiriants
 #define TEACHER_GIVE_PARAMETRS speciality, expiriants
@@ -203,10 +202,10 @@ public:
 
 	}
 	// Methods:
-	void info()const override
+	std::ostream& info(std::ostream& os)const override
 	{
-	Human::info();
-		cout << speciality << " " << expiriants << endl;
+	Human::info(os);
+		return os << speciality << " " << expiriants << endl;
 	}
 	
 	friend std::ostream& operator <<(std::ostream& os, const Teacher& obj);
@@ -214,7 +213,7 @@ public:
 };
 std::ostream& operator <<(std::ostream& os, const Teacher& obj)
 {
-	return os<<static_cast<const Human&>(obj) << obj.speciality << " " << obj.expiriants;
+	return obj.info(os);
 }
 #define GRADUATE_TAKE_PARAMETRS const std::string& subject 
 #define GRADUATE_GIVE_PARAMETRS subject 
@@ -239,17 +238,17 @@ public:
 
 	}
 
-	void info()const
+	std::ostream& info(std::ostream& os)const
 	{
-		Student::info();
-		cout << subject << endl;
+		Student::info(os);
+		return os << subject << endl;
 	}
 	friend std::ostream& operator <<(std::ostream& os, const Graduate& obj);
 
 };
 std::ostream& operator<<(std::ostream& os, const Graduate& obj)
 {
-	return os << static_cast<const Human&>(obj) << " " << obj.subject;
+	return obj.info(os);
 }
 #define INTERITANCE
 //#define POLIMORPHISM
