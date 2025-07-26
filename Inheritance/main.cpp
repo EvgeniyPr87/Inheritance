@@ -1,16 +1,17 @@
 #include<iostream>
+#include<fstream>
 using std::cout;
 using std::cin;
 using std::endl;
 
 #define delimitr "\n--------------------------\n"
-
+//#define DEBUG
 
 
 #define HUMAN_TAKE_PARAMETRS const std::string& last_name, const std::string& first_name, int age
 #define HUMAN_GIVE_PARAMETRS  last_name, first_name, age
-
 #define HUMAN_FIELDS_OUTPUT  last_name << " " << first_name << " " << age << endl
+
 class Human
 {
 	std::string last_name;
@@ -72,13 +73,12 @@ public:
 	{
 		return  os << HUMAN_FIELDS_OUTPUT;
 	}
-		
+	
 };
 std::ostream& operator <<(std::ostream& os, const Human& obj)
 {
 	return obj.info(os);
 }
-
 
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendence
 #define STUDENT_GIVE_PARAMETRS  speciality,group,rating, attendence
@@ -161,13 +161,14 @@ public:
 		Human::info(os);
 		return os << STUDENT_FIELDS_OUTPUT;
 	}
-	
+
 };
 
  std::ostream& operator<<(std::ostream& os, const Student& obj)
 {
 	 return obj.info(os);
  }
+ 
 #define TEACHER_TAKE_PARAMETRS const std::string& speciality, int expiriants
 #define TEACHER_GIVE_PARAMETRS speciality, expiriants
 #define TEACHER_FIELDS_OUTPUT speciality << " " << expiriants << endl
@@ -232,6 +233,7 @@ std::ostream& operator <<(std::ostream& os, const Teacher& obj)
 {
 	return obj.info(os);
 }
+
 #define GRADUATE_TAKE_PARAMETRS const std::string& subject 
 #define GRADUATE_GIVE_PARAMETRS subject 
 #define GRADUATE_FIELDS_OUTPUT  subject << endl
@@ -266,14 +268,15 @@ public:
 		Student::info(os);
 		return os <<GRADUATE_FIELDS_OUTPUT;
 	}
-
+	
 };
 std::ostream& operator<<(std::ostream& os, const Graduate& obj)
 {
 	return obj.info(os);
 }
-#define INTERITANCE
-//#define POLIMORPHISM
+
+//#define INTERITANCE
+#define POLIMORPHISM
 
 
 void main()
@@ -292,10 +295,10 @@ void main()
 	Graduate graduate("Schreder", "Hank", 40, "Criminalistic", "WW_220", 40, 60, "How to catch Heisenberg");
 	//graduate.info();
 
-	cout << human<<endl;
-	cout << student<<endl;
-	cout << teacher<<endl;
-	cout << graduate<<endl;
+	cout << human << endl;
+	cout << student << endl;
+	cout << teacher << endl;
+	cout << graduate << endl;
 
 #endif // INTERITANCE
 
@@ -309,16 +312,33 @@ void main()
 		new Teacher("Whim", "Demmi", 40, "Chemistry", 25),
 		new Graduate("Schreder", "Hank", 40, "Criminalistic", "WW_220", 40, 60, "How to catch Heisenberg")
 	};
+	
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		group[i]->info();
 		cout << delimitr << endl;
 	}
+	
+
+	std::ofstream fout;
+	fout.open("Group.txt", std::fstream::trunc);
+
+	if (fout.is_open())
+	{
+		for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+		{
+			fout << *group[i]<<endl;
+		}
+	system("notepad Group.txt");
+	}
+	else
+	{
+		std::cerr << "Error: file not open" << endl;
+	}
+	fout.close();
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		delete group[i];
 	}
 #endif // POLIMORPHISM
-
-
 }
