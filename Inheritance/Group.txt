@@ -1,6 +1,6 @@
-Montana        Antonio        25 
-Pincman        Jessy          22 Chemistry             WW_220  95   99   
-White          Walter         50 Chemistry             25 
-Pinc           Jemmi          26 Chemistry             WW_220  90   89   
-Whim           Demmi          40 Chemistry             25 
-Schreder       Hank           40 Criminalistic         WW_220  40   60    How to catch Heisenberg
+Human:    Montana        Antonio        25 
+Student:  Pincman        Jessy          22 Chemistry             WW_220  95   99   
+Teacher:  White          Walter         50 Chemistry             25 
+Student:  Pinc           Jemmi          26 Chemistry             WW_220  90   89   
+Teacher:  Whim           Demmi          40 Chemistry             25 
+Graduate: Schreder       Hank           40 Criminalistic         WW_220  40   60    How to catch Heisenberg

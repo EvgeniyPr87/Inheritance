@@ -15,6 +15,7 @@ using std::endl;
 
 class Human
 {
+	static const int TYPE_WIDTH = 10;
 	static const int LAST_NAME_WIDTH = 15;
 	static const int FIRST_NAME_WIDTH = 15;
 	static const int AGE_WIDTH = 3;
@@ -34,6 +35,10 @@ public:
 	int get_age()const
 	{
 		return age;
+	}
+	int get_count()const
+	{
+		return count;
 	}
 
 
@@ -74,8 +79,10 @@ public:
 	//		Methods:
 	virtual std::ostream& info(std::ostream& os)const
 	{
-		os.width(LAST_NAME_WIDTH);
 		os << std::left;
+		os.width(TYPE_WIDTH);
+		os << std::string(typeid(*this).name() + 6)+ ":";
+		os.width(LAST_NAME_WIDTH);
 		os << last_name;
 		os.width(FIRST_NAME_WIDTH);
 		os << first_name;
@@ -253,7 +260,7 @@ public:
 
 #define GRADUATE_TAKE_PARAMETRS const std::string& subject 
 #define GRADUATE_GIVE_PARAMETRS subject 
-#define GRADUATE_FIELDS_OUTPUT  subject << endl
+//#define GRADUATE_FIELDS_OUTPUT  subject << endl
 
 class Graduate:public Student
 {
@@ -330,6 +337,7 @@ void main()
 	}
 	
 
+	char filename[] = "group.txt";
 	std::ofstream fout;
 	fout.open("Group.txt", std::fstream::trunc);
 
@@ -339,13 +347,18 @@ void main()
 		{
 			fout << *group[i]<<endl;
 		}
-	system("notepad Group.txt");
+	
 	}
 	else
 	{
 		std::cerr << "Error: file not open" << endl;
 	}
 	fout.close();
+	char cmd[FILENAME_MAX] = "notepad ";
+	//system("notepad Group.txt");
+	//strcat(cmd, filename);
+	system((std::string("notepad") + filename).c_str());
+	cout << "Количество людей" << group[0]->get_count() << endl;
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		delete group[i];
