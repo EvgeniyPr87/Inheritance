@@ -1,4 +1,5 @@
 #include<iostream>
+#include<string>
 #include<fstream>
 using std::cout;
 using std::cin;
@@ -10,10 +11,14 @@ using std::endl;
 
 #define HUMAN_TAKE_PARAMETRS const std::string& last_name, const std::string& first_name, int age
 #define HUMAN_GIVE_PARAMETRS  last_name, first_name, age
-#define HUMAN_FIELDS_OUTPUT  last_name << " " << first_name << " " << age << endl
+//#define HUMAN_FIELDS_OUTPUT  last_name << " " << first_name << " " << age << endl
 
 class Human
 {
+	static const int LAST_NAME_WIDTH = 15;
+	static const int FIRST_NAME_WIDTH = 15;
+	static const int AGE_WIDTH = 3;
+	static int count;
 	std::string last_name;
 	std::string first_name;
 	int age;
@@ -51,6 +56,7 @@ public:
 		set_last_name(last_name);
 		set_first_name(first_name);
 		set_age(age);
+		count++;
 #ifdef DEBUG
 		cout << "HConstructor:\t" << this << endl;
 #endif // DEBUG
@@ -58,6 +64,7 @@ public:
 	}
 	virtual~Human()
 	{
+		count--;
 #ifdef DEBUG
 		cout << "HDestructor:\t" << this << endl;
 #endif // DEBUG
@@ -65,16 +72,21 @@ public:
 	}
 
 	//		Methods:
-	virtual void info()const
-	{
-		cout << HUMAN_FIELDS_OUTPUT;
-	}
 	virtual std::ostream& info(std::ostream& os)const
 	{
-		return  os << HUMAN_FIELDS_OUTPUT;
+		os.width(LAST_NAME_WIDTH);
+		os << std::left;
+		os << last_name;
+		os.width(FIRST_NAME_WIDTH);
+		os << first_name;
+		os.width(AGE_WIDTH);
+		os << age;
+		return os;
 	}
 	
 };
+int Human::count = 0; //статическую переменную можно инициализировать только за пределами класса
+
 std::ostream& operator <<(std::ostream& os, const Human& obj)
 {
 	return obj.info(os);
@@ -82,10 +94,15 @@ std::ostream& operator <<(std::ostream& os, const Human& obj)
 
 #define STUDENT_TAKE_PARAMETRS const std::string& speciality, const std::string& group, double rating, double attendence
 #define STUDENT_GIVE_PARAMETRS  speciality,group,rating, attendence
-#define STUDENT_FIELDS_OUTPUT speciality << " " << group << " " << attendance << endl
+//#define STUDENT_FIELDS_OUTPUT speciality << " " << group << " " << attendance << endl
 
 class Student :public Human
 {
+	static const int SPECIALITY_WIDTH = 22;
+	static const int GROUP_WIDTH = 8;
+	static const int RATING_WIDTH = 5;
+	static const int ATTENDANSE_WIDTH = 5;
+	
 	std::string speciality;
 	std::string group;
 	double rating;
@@ -151,17 +168,20 @@ public:
 	}
 
 	//			Methods:
-	void info()const
-	{
-		Human::info();
-		cout << STUDENT_FIELDS_OUTPUT;
-	}
 	std::ostream& info(std::ostream& os)const override
 	{
 		Human::info(os);
-		return os << STUDENT_FIELDS_OUTPUT;
+		os.width(SPECIALITY_WIDTH);
+		os << speciality;
+		os.width(GROUP_WIDTH);
+		os << group;
+		os.width(RATING_WIDTH);
+		os << rating;
+		os.width(ATTENDANSE_WIDTH);
+		os << attendance;
+		return os;
 	}
-
+	
 };
 
  std::ostream& operator<<(std::ostream& os, const Student& obj)
@@ -171,10 +191,12 @@ public:
  
 #define TEACHER_TAKE_PARAMETRS const std::string& speciality, int expiriants
 #define TEACHER_GIVE_PARAMETRS speciality, expiriants
-#define TEACHER_FIELDS_OUTPUT speciality << " " << expiriants << endl
+//#define TEACHER_FIELDS_OUTPUT speciality << " " << expiriants << endl
 
 class Teacher : public Human
 {
+	static const int SPECIALITY_WIDTH = 22;
+	static const int EXPERIENCE_WIDTH = 3;
 	std::string speciality;
 	int expiriants;
 
@@ -217,26 +239,22 @@ public:
 
 	}
 	// Methods:
-	void info()const override
-	{
-	Human::info();
-		cout<< TEACHER_FIELDS_OUTPUT;
-	}
 	std::ostream& info(std::ostream& os)const override
 	{
-	Human::info(os);
-		return os <<TEACHER_FIELDS_OUTPUT;
+		Human::info(os);
+		os.width(SPECIALITY_WIDTH);
+		os << speciality;
+		os.width(EXPERIENCE_WIDTH);
+		os << expiriants;
+		return os;
 	}
 	
 };
-std::ostream& operator <<(std::ostream& os, const Teacher& obj)
-{
-	return obj.info(os);
-}
 
 #define GRADUATE_TAKE_PARAMETRS const std::string& subject 
 #define GRADUATE_GIVE_PARAMETRS subject 
 #define GRADUATE_FIELDS_OUTPUT  subject << endl
+
 class Graduate:public Student
 {
 	std::string subject;
@@ -258,22 +276,13 @@ public:
 
 	}
 	//	Metods:
-	void info()const override
+	std::ostream& info(std::ostream& os)const override
 	{
-		Student::info();
-		cout<< GRADUATE_FIELDS_OUTPUT;
-	}
-	std::ostream& info(std::ostream& os)const
-	{
-		Student::info(os);
-		return os <<GRADUATE_FIELDS_OUTPUT;
+		Student::info(os) << " ";
+		return os << subject;
 	}
 	
 };
-std::ostream& operator<<(std::ostream& os, const Graduate& obj)
-{
-	return obj.info(os);
-}
 
 //#define INTERITANCE
 #define POLIMORPHISM
@@ -315,7 +324,8 @@ void main()
 	
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
-		group[i]->info();
+		//group[i]->info();
+		cout << *group[i] << endl;
 		cout << delimitr << endl;
 	}
 	
