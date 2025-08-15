@@ -291,8 +291,38 @@ public:
 	
 };
 
+void Print(Human* group[],const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << *group[i] << endl;
+	}
+	cout << "Количество людей: " << group[0]->get_count() << endl;
+}
+
+void Save(Human** group, char filename[])
+{
+	std::ofstream fout(filename);
+	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+	{
+		cout << *group[i] << endl;
+		fout << group[i] << endl;
+		cout << delimitr << endl;
+	}
+	fout.close();
+	system((std::string("notepad") + filename).c_str());
+	char cmd[FILENAME_MAX] = "notepad";
+}
+
+void Clear(Human** group, const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		delete group[i];
+	}
+}
 //#define INTERITANCE
-#define POLIMORPHISM
+//#define POLIMORPHISM
 
 
 void main()
@@ -364,4 +394,18 @@ void main()
 		delete group[i];
 	}
 #endif // POLIMORPHISM
+
+	Human* group[] =
+	{
+		new Human("Montana", "Antonio", 25),
+		new Student("Pincman", "Jessy", 22, "Chemistry", "WW_220", 95, 99),
+		new Teacher("White", "Walter", 50, "Chemistry", 25),
+		new Student("Pinc", "Jemmi", 26, "Chemistry", "WW_220", 90, 89),
+		new Teacher("Whim", "Demmi", 40, "Chemistry", 25),
+		new Graduate("Schreder", "Hank", 40, "Criminalistic", "WW_220", 40, 60, "How to catch Heisenberg")
+	};
+
+	Print(group, sizeof(group) / sizeof(group[0]));
+	Clear(group, sizeof(group) / sizeof(group[0]));
+
 }
